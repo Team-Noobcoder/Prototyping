@@ -9,8 +9,9 @@ char coming_from = 'O'; // we always start on an empty space
 
 // THIS IS THE FUNCTION YOU IMPLEMENT
 // THIS IS THE FUNCTION YOU IMPLEMENT
-int move(char* world) {
-    int Robot = 0;
+int move(char* world) 
+{
+    int Robot = 0; // Asalnya kosong
     int Target = 0;
 
     for (Robot = 0; world[Robot] != 'R'; Robot++)
@@ -19,12 +20,12 @@ int move(char* world) {
     }
     for (Target = 0; world[Target] != 'T'; Target++)
     {
-
+         
     }
-
+    // To find row of target T 
     int Horizontal_T;
     Horizontal_T = Target / 21;
-
+    // To find row of robot R 
     int Horizontal_R;
     Horizontal_R = Robot / 21;
 
