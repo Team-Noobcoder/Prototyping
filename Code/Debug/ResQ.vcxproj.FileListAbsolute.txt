@@ -1,2 +1,0 @@
-D:\Documents\HSHL\SOFTWARE FOR ELE\Visual Studio\ResQ\Debug\ResQ.exe
-D:\Documents\HSHL\SOFTWARE FOR ELE\Visual Studio\ResQ\Debug\ResQ.pdb
