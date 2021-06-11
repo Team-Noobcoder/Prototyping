@@ -1,7 +1,0 @@
-﻿  main.c
-D:\Documents\HSHL\SOFTWARE FOR ELE\Visual Studio\ResQ\main.c(171,23): warning C4018: '<': signed/unsigned mismatch
-  robot_ResQ.c
-  Generating Code...
-D:\Documents\HSHL\SOFTWARE FOR ELE\Visual Studio\ResQ\robot_ResQ.c(168): warning C4715: 'move': not all control paths return a value
-D:\Documents\HSHL\SOFTWARE FOR ELE\Visual Studio\ResQ\main.c(82): warning C4715: 'update_world': not all control paths return a value
-  ResQ.vcxproj -> D:\Documents\HSHL\SOFTWARE FOR ELE\Visual Studio\ResQ\Debug\ResQ.exe
