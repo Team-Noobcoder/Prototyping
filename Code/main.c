@@ -1,63 +1,12 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "ResQbotHeader.h"
+#include "robot_ResQ.h"
 
-int driving_mode = 0;
-char coming_from = 'O'; // we always start on an empty space
+
 
 // THIS IS THE FUNCTION YOU IMPLEMENT
-// THIS IS THE FUNCTION YOU IMPLEMENT
-int move(char* world) {
-    int Robot = 0;
-    int Target = 0;
-
-    for (Robot = 0; world[Robot] != 'R'; Robot++)
-    {
-
-    }
-    for (Target = 0; world[Target] != 'T'; Target++)
-    {
-
-    }
-
-    int Horizontal_T;
-    Horizontal_T = Target / 21;
-
-    int Horizontal_R;
-    Horizontal_R = Robot / 21;
-
-    int difference_H = Horizontal_T - Horizontal_R;//Column difference
-
-    int Vertical_T = Target % 21;
-    int Vertical_R = Robot % 21;
-
-    int difference_V = Vertical_T - Vertical_R;//Row difference
-
-    if (difference_H < 0)
-    {
-        return 1;
-
-    }
-
-    else if (difference_H > 0)
-    {
-
-        return 3;
-    }
-    else if (difference_V < 0)
-    {
-        return 4;
-
-    }
-    else if (difference_V > 0)
-    {
-
-        return 2;
-    }
-
-}
+int move(char* world);
 
 // Return target index
 int update_world(int movement, char* world, int robot_index, int width) {
@@ -197,18 +146,18 @@ int main() {
 
     char world6[200] = {
         '#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','\n',
-        '#','O','T','O','O','O','O','O','O','O','O','O','O','O','O','O','O','O','O','#','\n',
+        '#','O','O','T','O','O','O','O','O','O','O','O','O','O','O','O','O','O','O','#','\n',
         '#','O','O','O','O','O','O','O','O','O','O','O','O','O','O','O','O','O','O','#','\n',
         '#','~','~','~','~','O','O','O','O','O','O','O','O','O','O','O','O','O','O','#','\n',
         '#','~','~','~','~','O','O','O','O','O','O','O','O','O','O','O','O','O','O','#','\n',
         '#','O','O','O','O','O','O','O','O','O','O','O','O','O','O','O','O','O','O','#','\n',
-        '#','O','R','O','O','O','O','O','O','O','O','O','O','O','O','O','O','O','O','#','\n',
+        '#','O','O','R','O','O','O','O','O','O','O','O','O','O','O','O','O','O','O','#','\n',
         '#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','\n'
     };
 
     // Set the world to use
     char world[200];
-    memcpy(world, world1, sizeof(world1));
+    memcpy(world, world6, sizeof(world6));
 
     // Initialize target and robot positions
     // Assumes only one target, one robot
