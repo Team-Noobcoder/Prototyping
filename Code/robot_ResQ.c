@@ -7,14 +7,14 @@
 int move(char* world) {
     int Robot = 0;
     int Target = 0;
+    bool visited[200];
     int queue[];
-    bool visited[];
-    int previous[];
     int direction[4] = { 1,-1,21,-21 };
-    int CURRENT_POSITION = ROBOT INDEX;
-    int prev[200];
-    int t = 0;
-int path[];
+    int previous[];
+    int current_position;
+    int path[];
+    int repath[];
+    int b = 0;
 
 
 for (Robot = 0; world[Robot] != 'R'; Robot++)
@@ -42,80 +42,98 @@ int difference_V = Vertical_T - Vertical_R;//Row difference
 
 for (int i = 0; i < 200; i++)
 {
-    visited[i] = 'FALSE'; //if not visited false
+    visted[i] = 'FALSE';
+
 
 }
 
 
-int c = 0;
-int k = 0;
+
+current_position = R;
+
+queue[0] = current_position;
+int y = 0;
 int counter = 1;
+int p = 0;
 
-queue[0] = CURRENT_POSITION;
-// Store coordinate to reach T
-for (int y = 0; queue[y] != TARGET_POSITION; y++)
-{
-    visited[CURRENT_POSITION] == 'TRUE';
+for (y=0; queue[y]!= Target; y++)
+
+{ 
+
+    current_position = queue[y];
+    visited[current_position] = 'TRUE';
 
 
-
-    for (int j = 0; j < 4; j++)
+    for (int d = 0; d < 4; d++)
     {
-        if (queue[CURRENT_POSITION] + direction[j++] < 0 || queue[CURRENT_POSITION] + direction > 200)
+
+        if (queue[current_position] + direction[d] < 0 || queue[current_position] + direction[d] Y > 200)
         {
-            continue;
+            
 
         }
-        else if (world[CURRENT_POSITION + direction] == '#' || world[CURRENT_POSITION + direction] == '*' || visited[CURRENT_POSITION + direction] == 'TRUE';)
+        else if (world[current_position] + direction[d] == '#' || world[current_position] + direction[d] == '*' || world[current_position] + direction[d] == '~')
         {
-            continue;
+
+           
         }
+        else if(visited[current_position]=='TRUE')
+
+
+       
+
         else
+
         {
+            queue[counter] = current_position + direction[d];
+            prev[current_position + direction] = current_position;
 
 
-            queue[counter] = CURRENT_POSITION + direction;
+
             counter++;
-            prev[CURRENT_POSITION + direction] = CURRENT_POSITION;
-
-
-
+             
         }
 
 
-
-
-
+  
 
     }
 
 
-    CURRENT_POSITION = queue[y];
 
-}
-
-int p = 0;
-for (Cl = Target; prev != NULL; )//finding path
-{
-    path[p] = Cl
-
-        p++;
 
 
 
 
-    Cl = prev[Cl];
 }
 
-int r;
-int m=0;
-for (r = p; r > 0; r--)
-{
-    repath[m] = path[p];
-    p--;
-    m++;
-}
+      int p = 0;
 
+      for (construct = Target; prev[construct] != 'NULL') //reconstruct path
+
+     { 
+          
+
+          path[p]=construct;
+          p++;
+          
+         construct=prev[construct];
+
+     }
+
+
+
+      int r = p;
+      int m = 0;
+      for (r = p; r > 0; r--)
+      {
+
+          repath[m] = path[p];
+          p--;
+          m++;
+
+
+      }
 
         
             // To change status water or land mode
@@ -169,34 +187,39 @@ for (r = p; r > 0; r--)
 
 
 
-    Robot = path[t];
-    t++
+    Robot = repath[b];
+    b++;
+     
 
-        if (path[t + 1] - Robot == 1)
-        {
+    if (repath[b + 1] - Robot == 1)
+    {
 
-            return 2;
-         }
-
-        else if (path[t + 1] - Robot == -1)
-        {
-
-            return 4;
-
-        }  
-        else if (path[t + 1] - Robot == 21)
-        {
-
-            return 3;
-
-        }
+        return 2;
+    }
 
 
-        else if (path[t + 1] - Robot == -21)
-        {
 
-            return 1;
-        }
+      else if (repath[b + 1] - Robot == -1)
+    {
+
+        return 4;
+    }
+
+
+
+      else if (repath[b + 1] - Robot == 21)
+    {
+        return 3;
+
+    }
+
+
+      else if (repath[b + 1] - Robot == -21)
+    {
+
+        return 4;
+    }
+
 
 
 
