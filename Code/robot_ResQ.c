@@ -13,88 +13,108 @@ int move(char* world) {
     int direction[4] = { 1,-1,21,-21 };
     int CURRENT_POSITION = ROBOT INDEX;
     int prev[200];
+    int t = 0;
+int path[];
 
 
-    for (Robot = 0; world[Robot] != 'R'; Robot++)
+for (Robot = 0; world[Robot] != 'R'; Robot++)
+{
+
+}
+for (Target = 0; world[Target] != 'T'; Target++)
+{
+
+}
+
+int Horizontal_T;
+Horizontal_T = Target / 21;
+
+int Horizontal_R;
+Horizontal_R = Robot / 21;
+
+int difference_H = Horizontal_T - Horizontal_R;//Column difference
+
+int Vertical_T = Target % 21;
+int Vertical_R = Robot % 21;
+
+int difference_V = Vertical_T - Vertical_R;//Row difference
+
+
+for (int i = 0; i < 200; i++)
+{
+    visited[i] = 'FALSE'; //if not visited false
+
+}
+
+
+int c = 0;
+int k = 0;
+int counter = 1;
+
+queue[0] = CURRENT_POSITION;
+// Store coordinate to reach T
+for (int y = 0; queue[y] != TARGET_POSITION; y++)
+{
+    visited[CURRENT_POSITION] == 'TRUE';
+
+
+
+    for (int j = 0; j < 4; j++)
     {
-
-    }
-    for (Target = 0; world[Target] != 'T'; Target++)
-    {
-
-    }
-
-    int Horizontal_T;
-    Horizontal_T = Target / 21;
-
-    int Horizontal_R;
-    Horizontal_R = Robot / 21;
-
-    int difference_H = Horizontal_T - Horizontal_R;//Column difference
-
-    int Vertical_T = Target % 21;
-    int Vertical_R = Robot % 21;
-
-    int difference_V = Vertical_T - Vertical_R;//Row difference
-
-
-    for (int i = 0; i < 200; i++)
-    {
-        visited[i] = 'FALSE'; //if not visited false
-
-    }
-
-
-    int c = 0;
-    int k = 0;
-    int counter = 1;
-
-    queue[0] = CURRENT_POSITION;
-    // Store coordinate to reach T
-    for (int y = 0; queue[y] != TARGET_POSITION; y++)
-    {
-        visited[CURRENT_POSITION] == 'TRUE';
-
-
-
-        for (int j = 0; j < 4; j++)
+        if (queue[CURRENT_POSITION] + direction[j++] < 0 || queue[CURRENT_POSITION] + direction > 200)
         {
-            if (queue[CURRENT_POSITION] + direction[j++] < 0 || queue[CURRENT_POSITION] + direction > total element dalam world)
-            {
-                continue;
+            continue;
 
-            }
-            else if (world[CURRENT_POSITION + direction] == '#' || world[CURRENT_POSITION + direction] == '*' || visited[CURRENT_POSITION + direction] == 'TRUE';)
-            {
-                continue;
-            }
-            else
-            {
+        }
+        else if (world[CURRENT_POSITION + direction] == '#' || world[CURRENT_POSITION + direction] == '*' || visited[CURRENT_POSITION + direction] == 'TRUE';)
+        {
+            continue;
+        }
+        else
+        {
 
 
-                queue[counter] = CURRENT_POSITION + direction;
-                counter++;
-                prev[CURRENT_POSITION + direction] = CURRENT_POSITION;
-
-
-
-            }
-
-
-
+            queue[counter] = CURRENT_POSITION + direction;
+            counter++;
+            prev[CURRENT_POSITION + direction] = CURRENT_POSITION;
 
 
 
         }
 
 
-        CURRENT_POSITION = queue[y];
+
+
+
 
     }
 
 
-    for ( Cl = Target ; prev!= NULL; Cl= prev[Cl])
+    CURRENT_POSITION = queue[y];
 
+}
+
+int p = 0;
+for (Cl = Target; prev != NULL; )//finding path
+{
+    path[p] = Cl
+
+        p++;
+
+
+
+
+    Cl = prev[Cl];
+}
+
+int r;
+int m=0;
+for (r = p; r > 0; r--)
+{
+    repath[m] = path[p];
+    p--;
+    m++;
+}
 
 
         
@@ -149,8 +169,34 @@ int move(char* world) {
 
 
 
+    Robot = path[t];
+    t++
+
+        if (path[t + 1] - Robot == 1)
+        {
+
+            return 2;
+         }
+
+        else if (path[t + 1] - Robot == -1)
+        {
+
+            return 4;
+
+        }  
+        else if (path[t + 1] - Robot == 21)
+        {
+
+            return 3;
+
+        }
 
 
+        else if (path[t + 1] - Robot == -21)
+        {
+
+            return 1;
+        }
 
 
 
