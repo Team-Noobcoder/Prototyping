@@ -7,6 +7,13 @@
 int move(char* world) {
     int Robot = 0;
     int Target = 0;
+    int queue[];
+    bool visited[];
+    int previous[];
+    int direction[4] = { 1,-1,21,-21 };
+    int CURRENT_POSITION = ROBOT INDEX;
+    int prev[200];
+
 
     for (Robot = 0; world[Robot] != 'R'; Robot++)
     {
@@ -30,7 +37,68 @@ int move(char* world) {
 
     int difference_V = Vertical_T - Vertical_R;//Row difference
 
-    // To change status water or land mode
+
+    for (int i = 0; i < 200; i++)
+    {
+        visited[i] = 'FALSE'; //if not visited false
+
+    }
+
+
+    int c = 0;
+    int k = 0;
+    int counter = 1;
+
+    queue[0] = CURRENT_POSITION;
+    // Store coordinate to reach T
+    for (int y = 0; queue[y] != TARGET_POSITION; y++)
+    {
+        visited[CURRENT_POSITION] == 'TRUE';
+
+
+
+        for (int j = 0; j < 4; j++)
+        {
+            if (queue[CURRENT_POSITION] + direction[j++] < 0 || queue[CURRENT_POSITION] + direction > total element dalam world)
+            {
+                continue;
+
+            }
+            else if (world[CURRENT_POSITION + direction] == '#' || world[CURRENT_POSITION + direction] == '*' || visited[CURRENT_POSITION + direction] == 'TRUE';)
+            {
+                continue;
+            }
+            else
+            {
+
+
+                queue[counter] = CURRENT_POSITION + direction;
+                counter++;
+                prev[CURRENT_POSITION + direction] = CURRENT_POSITION;
+
+
+
+            }
+
+
+
+
+
+
+        }
+
+
+        CURRENT_POSITION = queue[y];
+
+    }
+
+
+    for ( Cl = Target ; prev!= NULL; Cl= prev[Cl])
+
+
+
+        
+            // To change status water or land mode
     if (status == 0 && world[Robot - 21] == '~')
     {
         status = 1;
