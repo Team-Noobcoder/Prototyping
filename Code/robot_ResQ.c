@@ -1,5 +1,6 @@
-
+                                                                                                                                                                                                                                                  
 #include "robot_ResQ.h"
+#include <stdbool.h>
 
 
 // THIS IS THE FUNCTION YOU IMPLEMENT
@@ -42,7 +43,7 @@ int difference_V = Vertical_T - Vertical_R;//Row difference
 
 for (int i = 0; i < 200; i++)
 {
-    visted[i] = 'FALSE';
+    visted[i] = false;
 
 
 }
@@ -56,33 +57,40 @@ int y = 0;
 int counter = 1;
 int p = 0;
 
-for (y=0; queue[y]!= Target; y++)
+   /* for (y=0; queue[counter]!= Target; y++)
 
 { 
 
     current_position = queue[y];
     visited[current_position] = 'TRUE';
+    */
+      
+     for(queue[counter] != Target;)
+
+     {
 
 
     for (int d = 0; d < 4; d++)
     {
 
-        if (queue[current_position] + direction[d] < 0 || queue[current_position] + direction[d] Y > 200)
+        if (< 0 || queue[current_position] + direction[d] Y > 200)
         {
             
 
         }
-        else if (world[current_position] + direction[d] == '#' || world[current_position] + direction[d] == '*' || world[current_position] + direction[d] == '~')
+        else if (world[current_position] + direction[d] == '#' || world[current_position] + direction[d] == '*' || world[current_position] + direction[d] == '~' || (visited[current_position] == true)
         {
 
            
         }
-        else if(visited[current_position]=='TRUE')
+        else if (queue[current_position] + direction[d] == Target)
+        {
+            queue[counter] = current_position + direction[d];
+            
 
+        }
 
-       
-
-        else
+        else 
 
         {
             queue[counter] = current_position + direction[d];
@@ -95,7 +103,7 @@ for (y=0; queue[y]!= Target; y++)
         }
 
 
-  
+        visited[current_position + direction[d]] = true;
 
     }
 
