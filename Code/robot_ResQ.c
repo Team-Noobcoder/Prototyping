@@ -1,313 +1,162 @@
-                                                                                                                                                                                                                                                  
+
 #include "robot_ResQ.h"
-#include <stdbool.h>
+
+static int queue[200];
+static int visited[200];
+static int previous[200];
+static int current_position;
+static int direction[4] = { 1,-1,21,-21 };
+static int y = 1;
+static int c = 0;
+static int path[200];
+static int repath[200];
+static int p = 0;
+static int b = 0;
+static int construct;
 
 
-// THIS IS THE FUNCTION YOU IMPLEMENT
-// THIS IS THE FUNCTION YOU IMPLEMENT
-int move(char* world) {
-    int Robot = 0;
-    int Target = 0;
-    bool visited[200];
-    int queue[];
-    int direction[4] = { 1,-1,21,-21 };
-    int previous[];
-    int current_position;
-    int path[];
-    int repath[];
-    int b = 0;
 
-
-for (Robot = 0; world[Robot] != 'R'; Robot++)
+int move(char* world)
 {
+	// find R location
+	for (Robot = 0; world[Robot] != 'R'; Robot++)
+	{
 
-}
-for (Target = 0; world[Target] != 'T'; Target++)
-{
+	}
+	// find T location
+	for (Target = 0; world[Target] != 'T'; Target++)
+	{
 
-}
+	}
 
-int Horizontal_T;
-Horizontal_T = Target / 21;
 
-int Horizontal_R;
-Horizontal_R = Robot / 21;
 
-int difference_H = Horizontal_T - Horizontal_R;//Column difference
+	Robot = current_position;
+	queue[0] = current_position;
 
-int Vertical_T = Target % 21;
-int Vertical_R = Robot % 21;
+	for (int v = 0; v < 200; v++) // v for visited)
+	{
+		visited[v] = 0;
 
-int difference_V = Vertical_T - Vertical_R;//Row difference
+	}
 
+	visited[current_position] = 1;
 
-for (int i = 0; i < 200; i++)
-{
-    visted[i] = false;
 
 
-}
 
 
 
-current_position = R;
 
-queue[0] = current_position;
-int y = 0;
-int counter = 1;
-int p = 0;
+	// loop to check neighbour and inside array queue
 
-   /* for (y=0; queue[counter]!= Target; y++)
+	int y = 1;
+	while (queue[y] != Target)
 
-{ 
+	{
 
-    current_position = queue[y];
-    visited[current_position] = 'TRUE';
-    */
-      
-     for(queue[counter] != Target;)
+		//queue[c] = current_position; // c for counter to check array neighbour
+		current_position = queue[c];
+		for (int d = 0; d < 4; d++) // d for direction
 
-     {
+		{
+			if (world[current_position + direction[d]] == '#' || world[current_position + direction[d]] == '~' || world[current_position + direction[d]] == '*')
+			{
 
 
-    for (int d = 0; d < 4; d++)
-    {
+			}
 
-        if (< 0 || queue[current_position] + direction[d] Y > 200)
-        {
-            
+			else if (visited[current_position] == 1)
 
-        }
-        else if (world[current_position] + direction[d] == '#' || world[current_position] + direction[d] == '*' || world[current_position] + direction[d] == '~' || (visited[current_position] == true)
-        {
+			{
 
-           
-        }
-        else if (queue[current_position] + direction[d] == Target)
-        {
-            queue[counter] = current_position + direction[d];
-            
 
-        }
+			}
+			else if (world[current_position + direction[d]] == 'T')
+			{
 
-        else 
+				queue[y] = current_position + direction[d];
+				d = 5;
+				y++;
+				visited[current_position + direction[d]] = 1;
+				previous[current_position + direction[d]] = current_position;
+			}
 
-        {
-            queue[counter] = current_position + direction[d];
-            prev[current_position + direction] = current_position;
 
+			else
+			{
+				//current_position + direction[d] = queue[y];
 
+				queue[y] = current_position + direction[d];
+				y++;
+				visited[current_position + direction[d]] = 1;
+				previous[current_position + direction[d]] = current_position;
 
-            counter++;
-             
-        }
+			}
+		}
 
 
-        visited[current_position + direction[d]] = true;
+		c++;
 
-    }
+	}
 
 
+	// construct path from target to robot
 
+	for (construct = Target; previous[construct] != 'NULL'; construct = previous[Target])
+	{
 
+		path[p] = construct;
+		p++;
 
+	}
 
+	int r = p;
+	int m = 0;
+	// construct path from r to t
+	for (r = p; r > 0; r--)
+	{
 
-}
+		repath[m] = path[p];
+		p--;
+		m++;
+	}
 
-      int p = 0;
 
-      for (construct = Target; prev[construct] != 'NULL') //reconstruct path
 
-     { 
-          
+	// to move 
+	Robot = repath[b];
+	b++;
 
-          path[p]=construct;
-          p++;
-          
-         construct=prev[construct];
+	//east
+	if (repath[b + 1] - Robot == 1)
+	{
 
-     }
+		return 2;
+	}
 
 
+	//west
+	else if (repath[b + 1] - Robot == -1)
+	{
 
-      int r = p;
-      int m = 0;
-      for (r = p; r > 0; r--)
-      {
+		return 4;
+	}
 
-          repath[m] = path[p];
-          p--;
-          m++;
 
+	//south
+	else if (repath[b + 1] - Robot == 21)
+	{
+		return 3;
 
-      }
+	}
 
-        
-            // To change status water or land mode
-    if (status == 0 && world[Robot - 21] == '~')
-    {
-        status = 1;
-        return 5;
-    }
+	//north
+	else if (repath[b + 1] - Robot == -21)
+	{
 
-    if (status == 1 && world[Robot - 21] == '~')
-    {
-        return 1;
-
-    }
-
-
-    if (status == 1 && world[Robot - 21] == 'O')
-    {
-        status = 0;
-        return 5;
-
-    }
-
-    // Move UPWARD
-    if (difference_H < 0 && (world[Robot - 21] != 'O' || world[Robot - 21] != '~'))
-    {
-        return 1;
-
-    }
-
-    // Move DOWNWARD
-    else if (difference_H > 0 && world[Robot - 21] != '~')
-    {
-
-        return 3;
-    }
-
-    // Move LEFT
-    else if (difference_V < 0 && world[Robot - 21] != '~')
-    {
-        return 4;
-
-    }
-
-    // Move RIGHT
-    else if (difference_V > 0 && world[Robot - 21] != '~')
-    {
-
-        return 2;
-    }
-
-
-
-    Robot = repath[b];
-    b++;
-     
-
-    if (repath[b + 1] - Robot == 1)
-    {
-
-        return 2;
-    }
-
-
-
-      else if (repath[b + 1] - Robot == -1)
-    {
-
-        return 4;
-    }
-
-
-
-      else if (repath[b + 1] - Robot == 21)
-    {
-        return 3;
-
-    }
-
-
-      else if (repath[b + 1] - Robot == -21)
-    {
-
-        return 4;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*
-    // Moving when there is wall in centre map
-    if (different_H == 0)
-    {
-
-        status_Vertical = 1;
-
-
-
-
-
-
-
-    }
-
-
-
-    if (different_H < 0 && world[Robot + 1] == '#' && world[Robot - 21] == '#')//wall up and right
-    {
-
-        return 4;
-    }
-
-
-    if (different_H < 0 && world[Robot + 1] == '#' && world[Robot - 1] == '#' && world[Robot - 21] != '#')//wall left and right
-    {
-
-        return 1;
-    }
-
-    if (different_H < 0 && world[Robot - 21] == '#')//wall up
-    {
-
-        return 4;
-    }
-
-
-
-
-
-    if (status == 0 && world[Robot - 21] == '~')
-    {
-        status = 1;
-            return 5;
-    }
-
-    if (status == 1 && world[Robot - 21] == '~')
-    {
-        return 1;
-
-    }
-
-
-    if (status == 1 && world[Robot - 21] == 'O')
-    {
-        status = 0;
-        return 5;
-
-    }
-
-
-    if (status == 0 && world[Robot - 21] == 'O')
-    {
-
-        return 1;
-
-    }
-   */
+		return 4;
+	}
 
 
 }
