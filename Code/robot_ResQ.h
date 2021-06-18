@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 #ifndef ROBOT_H
 #define ROBOT_H
 #include <stdbool.h>
@@ -6,6 +6,8 @@
 static int status = 0;
 static int Robot = 0;
 static int Target = 0;
+static int current_position;
+
 
 /*
 int bal = sizeof(queue) / sizeof(int);// size queue
@@ -21,3 +23,4 @@ int move(char* world);
 #endif // ROBOT_H#pragma once
 #pragma once
 #pragma once
+*/
