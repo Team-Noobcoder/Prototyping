@@ -25,7 +25,7 @@ IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISI
 OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include <stdio.h>
+/*#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "robot_ResQ.h"
@@ -273,4 +273,4 @@ int main() {
         printf("FAILURE, maximum number of steps exceeded.");
     }
 
-}
+}*/
