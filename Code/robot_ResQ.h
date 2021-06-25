@@ -1,26 +1,27 @@
-/*#pragma once
+#pragma once
 #ifndef ROBOT_H
 #define ROBOT_H
 #include <stdbool.h>
 
-static int status = 0;
-static int Robot = 0;
-static int Target = 0;
+
+int find_path(int raw_count, int r_x, int r_y, int t_x, int t_y, char* world);
+int move(char* world, int map_id);
+
+
+
+static int status;
+static int Robot;
+static int Target;
+static int t_water;
 static int current_position;
 
 
-/*
-int bal = sizeof(queue) / sizeof(int);// size queue
-int ck = sizeof(previous) / sizeof(int);// size previous
-int kl = sizeof(path) / sizeof(int); //size path
-int am = sizeof(repath) / sizeof(int);
-*/
 
 // we always start on an empty space
 // Function declaration
-int move(char* world);
+
 
 #endif // ROBOT_H#pragma once
 #pragma once
 #pragma once
-*/
+
