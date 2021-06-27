@@ -17,6 +17,7 @@ static int current_position;
 
 
 
+
 // we always start on an empty space
 // Function declaration
 
