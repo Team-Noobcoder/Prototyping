@@ -18,16 +18,15 @@ static int new_current_position;
 static int neighbour;
 int Robot;
 static int u = 0;
-static int oit;
+static int forward;
 int m;
 int z;
 static int q = 0;
-static int uik;
+static int backward;
 static int status = 0;
-static int kimi = 0;
-static int bedd = 0;
-
-
+static int mode_a = 0;
+static int mode_b = 0;
+static int Target;
 
 int current_id = -1;
 int c = 0;
@@ -44,8 +43,10 @@ int move(char* world, int map_id)
 		c = 0;
 		move_counter = 0;
 		current_id = map_id;
-		uik = 0;
-		oit = 0;
+		backward = 0;
+		forward = 0;
+		mode_a = 0;
+		mode_b = 0;
 
 
 	}
@@ -69,36 +70,25 @@ int move(char* world, int map_id)
 
 		}
 		// find T location
-		for (Target = 0; world[Target] != 'T'; Target++)
-		{
 
-			if (Target >= 200)
+
+		for (int Target = 0; Target < 200; Target++)
+		{
+			if (world[Target] == 'T' || world[Target] == 't')
 
 			{
 
-				break;
+				position_target = Target;
+				printf("\n woiii %d", Target);
 			}
-			position_target = Target + 1;
 
 
 		}
-
-
-		/*
-		// find t location in water
-		for (t_water = 0; world[t_water] != 't'; t_water++)
-		{
-			position_target_water = t_water + 1;
-			printf(" \n woi ko kat mne %d", t_water);
-
-		}
-		*/
 
 		printf("Current Position: %d\n", current_position);
 		printf("Targett Position:%d\n", position_target);
 
 		queue[0] = current_position;
-		//printf("%d\n", queue[0]);
 
 
 		for (int v = 0; v < 200; v++) // v for visited)
@@ -184,16 +174,7 @@ int move(char* world, int map_id)
 
 		}
 
-		//loop to print prev
-			/*for (int x = 0; x < 200; x++)
-			{
-				printf("No Prev %d \n", x);
-				printf("prev= %d  ", previous[x]);
-
-			}
-			*/
-
-			// to find reverse path
+		// to find reverse path
 		int find = position_target;
 
 		reversePath[0] = position_target;
@@ -217,6 +198,7 @@ int move(char* world, int map_id)
 
 		}
 
+		//find correct path
 		int try = current_position;
 		path[m] = current_position;
 
@@ -235,8 +217,6 @@ int move(char* world, int map_id)
 		for (int k = 0; k < new + 1; k++)
 		{
 
-			//printf("Right Way %d ", path[k]);
-
 			if (path[k] == position_target)
 			{
 
@@ -250,22 +230,51 @@ int move(char* world, int map_id)
 
 
 
-
+		//mode = 0 (land mode)
+	   //mode = 1 (water mode)
 	case 1:
 
-		u = oit;
+		u = forward;
 
-		int north = path[oit] - 21; //upward
-		int south = path[oit] + 21; //downward
-		int west = path[oit] - 1; // left
-		int east = path[oit] + 1; // right
-
-
+		int north = path[forward] - 21; //upward
+		int south = path[forward] + 21; //downward
+		int west = path[forward] - 1; // left
+		int east = path[forward] + 1; // right
 
 
+	 //if target in water, ´stay in water mode for reverse path
 
 
-		if (path[oit] == position_target)
+		if ((path[forward + 1] - path[forward] == -21) && world[north] == 't')
+		{
+
+			mode_b = 1;
+		}
+
+
+		if ((path[forward + 1] - path[forward] == 21) && world[south] == 't')
+		{
+
+			mode_b = 1;
+		}
+
+
+		if ((path[forward + 1] - path[forward] == 1) && world[east] == 't')
+		{
+
+			mode_b = 1;
+		}
+
+
+		if ((path[forward + 1] - path[forward] == -1) && world[west] == 't')
+		{
+
+			mode_b = 1;
+		}
+
+		//////////////////////////////////////////////
+
+		if (path[forward] == position_target)
 
 		{
 
@@ -274,7 +283,7 @@ int move(char* world, int map_id)
 
 		//destroyed south
 
-		else if ((path[oit + 1] - path[oit]) == 21 && world[south] == '*')
+		else if ((path[forward + 1] - path[forward]) == 21 && world[south] == '*')
 
 		{
 
@@ -285,7 +294,7 @@ int move(char* world, int map_id)
 
 		//destroyed north
 
-		else if ((path[oit + 1] - path[oit]) == -21 && world[north] == '*')
+		else if ((path[forward + 1] - path[forward]) == -21 && world[north] == '*')
 
 		{
 
@@ -295,7 +304,7 @@ int move(char* world, int map_id)
 
 		//destroyed west
 
-		else if ((path[oit + 1] - path[oit]) == -1 && world[west] == '*')
+		else if ((path[forward + 1] - path[forward]) == -1 && world[west] == '*')
 
 		{
 
@@ -308,7 +317,7 @@ int move(char* world, int map_id)
 
 		//destroyed east
 
-		else if ((path[oit + 1] - path[oit]) == 1 && world[east] == '*')
+		else if ((path[forward + 1] - path[forward]) == 1 && world[east] == '*')
 
 		{
 
@@ -318,20 +327,20 @@ int move(char* world, int map_id)
 
 		/////////////////////////////
 		// change toggling mode then move inside the water (left= ~) 
-		else if ((path[oit + 1] - path[oit]) == -1 && world[west] == '~') //water at the left
+		else if ((path[forward + 1] - path[forward]) == -1 && world[west] == '~') //water at the left
 		{
 
 
-			if (kimi == 0 && world[west] == '~')
+			if (mode_a == 0 && world[west] == '~')
 			{
-				kimi = 1;
+				mode_a = 1;
 
 				return 5;
 			}
 
-			if (kimi == 1 && world[west] == '~')
+			if (mode_a == 1 && world[west] == '~')
 			{
-				oit++;
+				forward++;
 				return 4;
 
 			}
@@ -340,12 +349,12 @@ int move(char* world, int map_id)
 
 
 		//to change to land mode back (Left is O) 
-		else if (((path[oit + 1] - path[oit]) == -1) && (world[west] == 'O' || world[west] == 'T') && (kimi == 1))
+		else if (((path[forward + 1] - path[forward]) == -1) && (world[west] == 'O' || world[west] == 'T') && (mode_a == 1))
 		{
 
 
 
-			kimi = 0;
+			mode_a = 0;
 			return 5;
 
 		}
@@ -354,20 +363,20 @@ int move(char* world, int map_id)
 
 		/////////////////////////////
 		// // change toggling mode then move inside the water (right= ~) 
-		else if ((path[oit + 1] - path[oit]) == 1 && world[east] == '~') //water at the right
+		else if ((path[forward + 1] - path[forward]) == 1 && world[east] == '~') //water at the right
 		{
 
 
-			if (kimi == 0 && world[east] == '~')
+			if (mode_a == 0 && world[east] == '~')
 			{
-				kimi = 1;
+				mode_a = 1;
 
 				return 5;
 			}
 
-			if (kimi == 1 && world[east] == '~')
+			if (mode_a == 1 && world[east] == '~')
 			{
-				oit++;
+				forward++;
 				return 2;
 
 			}
@@ -376,12 +385,12 @@ int move(char* world, int map_id)
 
 
 		//to change to land mode back (Right is O) 
-		else if (((path[oit + 1] - path[oit]) == 1) && (world[east] == 'O' || world[east] == 'T') && (kimi == 1))
+		else if (((path[forward + 1] - path[forward]) == 1) && (world[east] == 'O' || world[east] == 'T') && (mode_a == 1))
 		{
 
 
 
-			kimi = 0;
+			mode_a = 0;
 			return 5;
 
 		}
@@ -389,20 +398,20 @@ int move(char* world, int map_id)
 		///////////////////////////////////////////
 		/////////////////////////////
 		//  change toggling mode then move inside the water (upward= ~) 
-		else if ((path[oit + 1] - path[oit]) == -21 && world[north] == '~') //water at the top
+		else if ((path[forward + 1] - path[forward]) == -21 && world[north] == '~') //water at the top
 		{
 
 
-			if (kimi == 0 && world[north] == '~')
+			if (mode_a == 0 && world[north] == '~')
 			{
-				kimi = 1;
+				mode_a = 1;
 
 				return 5;
 			}
 
-			if (kimi == 1 && world[north] == '~')
+			if (mode_a == 1 && world[north] == '~')
 			{
-				oit++;
+				forward++;
 				return 1;
 
 			}
@@ -411,12 +420,12 @@ int move(char* world, int map_id)
 
 
 		//to change to land mode back (Top is O)
-		else if (((path[oit + 1] - path[oit]) == -21) && (world[north] == 'O' || world[north] == 'T') && (kimi == 1))
+		else if (((path[forward + 1] - path[forward]) == -21) && (world[north] == 'O' || world[north] == 'T') && (mode_a == 1))
 		{
 
 
 
-			kimi = 0;
+			mode_a = 0;
 			return 5;
 
 		}
@@ -425,13 +434,13 @@ int move(char* world, int map_id)
 
 		 /////////////////////////////
 		//  change toggling mode then move inside the water (downward= ~) 
-		else if ((path[oit + 1] - path[oit]) == 21 && world[south] == '~') //water at the below
+		else if ((path[forward + 1] - path[forward]) == 21 && world[south] == '~') //water at the below
 		{
 
 
-			if (kimi == 0 && world[south] == '~')
+			if (mode_a == 0 && world[south] == '~')
 			{
-				kimi = 1;
+				mode_a = 1;
 
 				return 5;
 			}
@@ -440,9 +449,9 @@ int move(char* world, int map_id)
 
 
 
-			if (kimi == 1 && world[south] == '~')
+			if (mode_a == 1 && world[south] == '~')
 			{
-				oit++;
+				forward++;
 				return 3;
 
 			}
@@ -451,11 +460,11 @@ int move(char* world, int map_id)
 
 
 		//to change to land mode back (Down is O)
-		else if (((path[oit + 1] - path[oit]) == 21) && (world[south] == 'O' || world[south] == 'T') && (kimi == 1))
+		else if (((path[forward + 1] - path[forward]) == 21) && (world[south] == 'O' || world[south] == 'T') && (mode_a == 1))
 		{
 
 
-			kimi = 0;
+			mode_a = 0;
 			return 5;
 
 		}
@@ -464,54 +473,59 @@ int move(char* world, int map_id)
 
 		//Movement when no Water
 		//Move to west when no Water 
-		else if ((path[oit + 1] - path[oit]) == -1 && world[west] != '~')
+		else if ((path[forward + 1] - path[forward]) == -1 && world[west] != '~')
 		{
 
 
-			oit++;
+			forward++;
 			return 4;
 		}
 		//Move to east when no Water
-		else if ((path[oit + 1] - path[oit]) == 1 && world[east] != '~')
+		else if ((path[forward + 1] - path[forward]) == 1 && world[east] != '~')
 		{
 
-			oit++;
+			forward++;
 			return 2;
 		}
 		//Move to North when no Water
-		else if ((path[oit + 1] - path[oit]) == -21 && world[north] != '~')
+		else if ((path[forward + 1] - path[forward]) == -21 && world[north] != '~')
 		{
 
 
-			oit++;
+			forward++;
 			return 1;
 		}
 
 		//Move to South when no Water
-		else if ((path[oit + 1] - path[oit]) == 21 && world[south] != '~')
+		else if ((path[forward + 1] - path[forward]) == 21 && world[south] != '~')
 		{
 
 
-			oit++;
+			forward++;
 			return 3;
 		}
 
 	case 2:
 
-		q = uik;
-		int Rnorth = reversePath[uik] - 21; //North when return
-		int Rsouth = reversePath[uik] + 21; //South when return
-		int Rwest = reversePath[uik] - 1; // West when return
-		int Reast = reversePath[uik] + 1; // East when return
+		q = backward;
+		printf("\n kimi harini %d", mode_a);
 
-		if (reversePath[uik + 1] == Robot)
+
+
+		printf("\n bedd harini %d", mode_b);
+		int Rnorth = reversePath[backward] - 21; //North when return
+		int Rsouth = reversePath[backward] + 21; //South when return
+		int Rwest = reversePath[backward] - 1; // West when return
+		int Reast = reversePath[backward] + 1; // East when return
+
+		if (reversePath[backward + 1] == Robot)
 		{
 			status = 0;
 
 		}
 
 
-		if (reversePath[uik] == Robot)
+		if (reversePath[backward] == Robot)
 		{
 
 		}
@@ -520,20 +534,20 @@ int move(char* world, int map_id)
 		/////////////////////////////
 		// change toggling mode then move inside the water (left= ~)
 
-		else if ((reversePath[uik + 1] - reversePath[uik]) == -1 && world[Rwest] == '~')  //water at the left
+		else if ((reversePath[backward + 1] - reversePath[backward]) == -1 && world[Rwest] == '~')  //water at the left
 		{
 
 
-			if (bedd == 0 && world[Rwest] == '~')
+			if (mode_b == 0 && world[Rwest] == '~')
 			{
-				bedd = 1;
+				mode_b = 1;
 
 				return 5;
 			}
 
-			if (bedd == 1 && world[Rwest] == '~')
+			if (mode_b == 1 && world[Rwest] == '~')
 			{
-				uik++;
+				backward++;
 				return 4;
 
 			}
@@ -542,32 +556,32 @@ int move(char* world, int map_id)
 
 
 		//to change to land mode back (Left is O) 
-		else if (((reversePath[uik + 1] - reversePath[uik]) == -1) && (world[Rwest] == 'O') && (bedd == 1))
+		else if (((reversePath[backward + 1] - reversePath[backward]) == -1) && (world[Rwest] == 'O') && (mode_b == 1))
 		{
 			printf("masuk tak weh");
 
 
-			bedd = 0;
+			mode_b = 0;
 			return 5;
 
 		}
 
 		/////////////////////////////
 		// change toggling mode then move inside the water (right= ~) 
-		else if ((reversePath[uik + 1] - reversePath[uik]) == 1 && world[Reast] == '~') //water at the right
+		else if ((reversePath[backward + 1] - reversePath[backward]) == 1 && world[Reast] == '~') //water at the right
 		{
 
 
-			if (bedd == 0 && world[Reast] == '~')
+			if (mode_b == 0 && world[Reast] == '~')
 			{
-				bedd = 1;
+				mode_b = 1;
 
 				return 5;
 			}
 
-			if (bedd == 1 && world[Reast] == '~')
+			if (mode_b == 1 && world[Reast] == '~')
 			{
-				uik++;
+				backward++;
 				return 2;
 
 			}
@@ -575,12 +589,12 @@ int move(char* world, int map_id)
 		}
 
 		//to change to land mode back (Right is O) 
-		else if ((reversePath[uik + 1] - reversePath[uik] == 1) && (world[Reast] == 'O') && (bedd == 1))
+		else if ((reversePath[backward + 1] - reversePath[backward] == 1) && (world[Reast] == 'O') && (mode_b == 1))
 		{
 			printf("masuk tak weh");
 
 
-			bedd = 0;
+			mode_b = 0;
 			return 5;
 
 		}
@@ -588,20 +602,20 @@ int move(char* world, int map_id)
 		///////////////////////////////////////////
 		/////////////////////////////
 	//  change toggling mode then move inside the water (upward= ~) 
-		else if ((reversePath[uik + 1] - reversePath[uik]) == -21 && world[Rnorth] == '~') //water at the top
+		else if ((reversePath[backward + 1] - reversePath[backward]) == -21 && world[Rnorth] == '~') //water at the top
 		{
 
 
-			if (bedd == 0 && world[Rnorth] == '~')
+			if (mode_b == 0 && world[Rnorth] == '~')
 			{
-				bedd = 1;
+				mode_b = 1;
 
 				return 5;
 			}
 
-			if (bedd == 1 && world[Rnorth] == '~')
+			if (mode_b == 1 && world[Rnorth] == '~')
 			{
-				uik++;
+				backward++;
 				return 1;
 
 			}
@@ -609,12 +623,12 @@ int move(char* world, int map_id)
 		}
 
 		//to change to land mode back (Top is O)
-		else if (((reversePath[uik + 1] - reversePath[uik]) == -21) && (world[Rnorth] == 'O') && (bedd == 1))
+		else if (((reversePath[backward + 1] - reversePath[backward]) == -21) && (world[Rnorth] == 'O') && (mode_b == 1))
 		{
 			printf("masuk tak weh");
 
 
-			bedd = 0;
+			mode_b = 0;
 			return 5;
 
 		}
@@ -624,20 +638,20 @@ int move(char* world, int map_id)
 
 		/////////////////////////////
 		//  change toggling mode then move inside the water (downward= ~) 
-		else if ((reversePath[uik + 1] - reversePath[uik]) == 21 && world[Rsouth] == '~') //water at the below
+		else if ((reversePath[backward + 1] - reversePath[backward]) == 21 && world[Rsouth] == '~') //water at the below
 		{
 
 
-			if (bedd == 0 && world[Rsouth] == '~')
+			if (mode_b == 0 && world[Rsouth] == '~')
 			{
-				bedd = 1;
-
+				mode_b = 1;
+				printf("lalalal %d", mode_b);
 				return 5;
 			}
 
-			if (bedd == 1 && world[Rsouth] == '~')
+			if (mode_b == 1 && world[Rsouth] == '~')
 			{
-				uik++;
+				backward++;
 				return 3;
 
 			}
@@ -646,12 +660,12 @@ int move(char* world, int map_id)
 
 
 		//to change to land mode back (Down is O)
-		else if ((reversePath[uik + 1] - reversePath[uik]) == 21 && (world[Rsouth] == 'O') && (bedd == 1))
+		else if ((reversePath[backward + 1] - reversePath[backward]) == 21 && (world[Rsouth] == 'O') && (mode_b == 1))
 		{
 			printf("masuk tak weh");
 
 
-			bedd = 0;
+			mode_b = 0;
 			return 5;
 
 		}
@@ -659,33 +673,33 @@ int move(char* world, int map_id)
 		///////////////////////////////////////////
 
 		//Movement when no Water
-		else if ((reversePath[uik + 1] - reversePath[uik]) == -1 && world[Rwest] != '~')
+		else if ((reversePath[backward + 1] - reversePath[backward]) == -1 && world[Rwest] != '~')
 		{
-			uik++;
+			backward++;
 			return 4;
 		}
 
-		else if ((reversePath[uik + 1] - reversePath[uik]) == 1 && world[Reast] != '~')
+		else if ((reversePath[backward + 1] - reversePath[backward]) == 1 && world[Reast] != '~')
 		{
 
-			uik++;
+			backward++;
 			return 2;
 		}
 
 
 
-		else if ((reversePath[uik + 1] - reversePath[uik]) == -21 && world[Rnorth] != '~')
+		else if ((reversePath[backward + 1] - reversePath[backward]) == -21 && world[Rnorth] != '~')
 		{
-			uik++;
+			backward++;
 			return 1;
 		}
 
 
 
-		else if ((reversePath[uik + 1] - reversePath[uik]) == 21 && world[Rsouth] != '~')
+		else if ((reversePath[backward + 1] - reversePath[backward]) == 21 && world[Rsouth] != '~')
 		{
 
-			uik++;
+			backward++;
 			return 3;
 		}
 
