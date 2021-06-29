@@ -79,7 +79,6 @@ int move(char* world, int map_id)
 			{
 
 				position_target = Target;
-				printf("\n woiii %d", Target);
 			}
 
 
