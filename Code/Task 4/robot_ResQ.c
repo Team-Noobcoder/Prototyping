@@ -508,11 +508,7 @@ int move(char* world, int map_id)
 	case 2:
 
 		q = backward;
-		printf("\n kimi harini %d", mode_a);
 
-
-
-		printf("\n bedd harini %d", mode_b);
 		int Rnorth = reversePath[backward] - 21; //North when return
 		int Rsouth = reversePath[backward] + 21; //South when return
 		int Rwest = reversePath[backward] - 1; // West when return
@@ -558,9 +554,6 @@ int move(char* world, int map_id)
 		//to change to land mode back (Left is O) 
 		else if (((reversePath[backward + 1] - reversePath[backward]) == -1) && (world[Rwest] == 'O') && (mode_b == 1))
 		{
-			printf("masuk tak weh");
-
-
 			mode_b = 0;
 			return 5;
 
@@ -591,9 +584,6 @@ int move(char* world, int map_id)
 		//to change to land mode back (Right is O) 
 		else if ((reversePath[backward + 1] - reversePath[backward] == 1) && (world[Reast] == 'O') && (mode_b == 1))
 		{
-			printf("masuk tak weh");
-
-
 			mode_b = 0;
 			return 5;
 
@@ -625,9 +615,6 @@ int move(char* world, int map_id)
 		//to change to land mode back (Top is O)
 		else if (((reversePath[backward + 1] - reversePath[backward]) == -21) && (world[Rnorth] == 'O') && (mode_b == 1))
 		{
-			printf("masuk tak weh");
-
-
 			mode_b = 0;
 			return 5;
 
@@ -645,7 +632,6 @@ int move(char* world, int map_id)
 			if (mode_b == 0 && world[Rsouth] == '~')
 			{
 				mode_b = 1;
-				printf("lalalal %d", mode_b);
 				return 5;
 			}
 
@@ -662,8 +648,6 @@ int move(char* world, int map_id)
 		//to change to land mode back (Down is O)
 		else if ((reversePath[backward + 1] - reversePath[backward]) == 21 && (world[Rsouth] == 'O') && (mode_b == 1))
 		{
-			printf("masuk tak weh");
-
 
 			mode_b = 0;
 			return 5;
