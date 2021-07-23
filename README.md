@@ -1,3 +1,3 @@
 # Prototyping
-For Project SEm 4
+For Project SEM 4
 Team ResQ prototyping project
